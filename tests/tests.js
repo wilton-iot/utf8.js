@@ -1,32 +1,13 @@
-(function(root) {
+define(function(){var require = WILTON_requiresync;var module = {exports: {}};var exports = module.exports;
 	'use strict';
 
-	var noop = Function.prototype;
-
-	var load = (typeof require == 'function' && !(root.define && define.amd)) ?
-		require :
-		(!root.document && root.java && root.load) || noop;
-
-	var QUnit = (function() {
-		return root.QUnit || (
-			root.addEventListener || (root.addEventListener = noop),
-			root.setTimeout || (root.setTimeout = noop),
-			root.QUnit = load('../node_modules/qunitjs/qunit/qunit.js') || root.QUnit,
-			addEventListener === noop && delete root.addEventListener,
-			root.QUnit
-		);
-	}());
-
-	var qe = load('../node_modules/qunit-extras/qunit-extras.js');
-	if (qe) {
-		qe.runInContext(root);
-	}
-
+        var test = require("tape-compat");
+        var assert = require("assert");
+        var equal = assert.equal;
+        var raises = assert.throws;
+	var QUnit = test.QUnit;
 	/** The `utf8` object to test */
-	var utf8 = root.utf8 || (root.utf8 = (
-		utf8 = load('../utf8.js') || root.utf8,
-		utf8 = utf8.utf8 || utf8
-	));
+        var utf8 = require("utf8");
 
 	/*--------------------------------------------------------------------------*/
 
@@ -191,7 +172,7 @@
 	];
 
 	if (runExtendedTests) {
-		data = data.concat(require('./data.json'));
+		data = data.concat(require('utf8/data.json'));
 	}
 
 	// `throws` is a reserved word in ES3; alias it to avoid errors
@@ -265,12 +246,4 @@
 		);
 	});
 
-	/*--------------------------------------------------------------------------*/
-
-	// configure QUnit and call `QUnit.start()` for
-	// Narwhal, Node.js, PhantomJS, Rhino, and RingoJS
-	if (!root.document || root.phantom) {
-		QUnit.config.noglobals = true;
-		QUnit.start();
-	}
-}(typeof global == 'object' && global || this));
+return module.exports;});

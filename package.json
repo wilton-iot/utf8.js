@@ -35,5 +35,12 @@
 		"qunit-extras": "^1.4.2",
 		"qunitjs": "~1.11.0",
 		"requirejs": "^2.3.2"
-	}
+	},
+  "wilton": {
+    "excludes": [
+      "tests",
+      "Gruntfile.js",
+      "component.json"
+    ]
+  }
 }

@@ -180,16 +180,26 @@ define(function(){var require = WILTON_requiresync;var module = {exports: {}};va
 		throw Error('Invalid UTF-8 detected');
 	}
 
+        function decodeSymbolLenient() {
+            try {
+                return decodeSymbol();
+            } catch(e) {
+                // https://en.wikipedia.org/wiki/Specials_(Unicode_block)
+                return 0xfffd;
+            } 
+        }
+
 	var byteArray;
 	var byteCount;
 	var byteIndex;
-	function utf8decode(byteString) {
+	function utf8decode(byteString, lenient) {
 		byteArray = ucs2decode(byteString);
 		byteCount = byteArray.length;
 		byteIndex = 0;
 		var codePoints = [];
+                var decodeFun = true === lenient ? decodeSymbolLenient : decodeSymbol;
 		var tmp;
-		while ((tmp = decodeSymbol()) !== false) {
+		while ((tmp = decodeFun()) !== false) {
 			codePoints.push(tmp);
 		}
 		return ucs2encode(codePoints);

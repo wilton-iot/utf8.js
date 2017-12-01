@@ -1,4 +1,4 @@
-define(function(){var require = WILTON_requiresync;var module = {exports: {}};var exports = module.exports;
+define(function(localRequire, exports, module) { var requireOrig = require; require = localRequire;
 	'use strict';
 
         var test = require("tape-compat");
@@ -171,9 +171,11 @@ define(function(){var require = WILTON_requiresync;var module = {exports: {}};va
 		}
 	];
 
+/*
 	if (runExtendedTests) {
 		data = data.concat(require('utf8/data.json'));
 	}
+*/
 
 	// `throws` is a reserved word in ES3; alias it to avoid errors
 	var raises = QUnit.assert['throws'];
@@ -246,4 +248,4 @@ define(function(){var require = WILTON_requiresync;var module = {exports: {}};va
 		);
 	});
 
-return module.exports;});
+require = requireOrig;});
